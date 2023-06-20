@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Numerics;
+using System.Text;
 
 namespace LeetCode;
 
@@ -85,21 +86,39 @@ public class Solution
 		return head;
 	}
 
+	/// <summary>
+	/// https://leetcode.com/problems/add-two-numbers/description/
+	/// </summary>
 	public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
 	{
-		ListNode          l3 = null, p   = null;
+		ListNode l3 = null, p = null;
 
-		IEnumerable<int> r1  = ToArray(l1).Reverse().ToArray(), r2  = ToArray(l2).Reverse().ToArray();
-		BigInteger              rr1 = BigInteger.Parse(string.Concat(r1)),    rr2 = BigInteger.Parse(string.Concat(r2));
+		IEnumerable<int> r1  = ToArray(l1).Reverse().ToArray(),     r2  = ToArray(l2).Reverse().ToArray();
+		BigInteger       rr1 = BigInteger.Parse(string.Concat(r1)), rr2 = BigInteger.Parse(string.Concat(r2));
 		var              ns  = rr1 + rr2;
-		var              nss= new string(ns.ToString().Reverse().ToArray());
+		var              nss = new string(ns.ToString().Reverse().ToArray());
 
 		for (int i = 0; i < nss.Length; i++) {
 			var s = int.Parse(nss[i].ToString());
-			l3    = Add(l3, s);
+			l3 = Add(l3, s);
 
 		}
 
 		return l3;
 	}
+
+	public int LengthOfLongestSubstring(string s)
+	{
+		string sb = String.Empty;
+		int    m  = 0;
+		for (int i = 0; i < s.Length; i++) {
+
+			int x = i;
+			while (!sb.Contains(s[x])) {
+				x++;
+			}
+		}
+		return m;
+	}
+}
 }
