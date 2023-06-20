@@ -6,17 +6,13 @@ namespace LeetCode;
 
 public class Program
 {
+	private static readonly Solution S = new Solution();
+
 	public static void Main(string[] args)
 	{
-		Console.WriteLine("Hello, World!");
-
-		var s  = new Solution();
-		var l1 = new Solution.ListNode(2, new Solution.ListNode(4, new Solution.ListNode(3)));
-		var l2 = new Solution.ListNode(5, new Solution.ListNode(6, new Solution.ListNode(4)));
-		var l3 = s.AddTwoNumbers(l1, l2);
-		var lp = l3;
-		Console.WriteLine(string.Join(',', (Solution.ToArray(l1))));
-		Console.WriteLine(string.Join(',', (Solution.ToArray(l3))));
+		Console.WriteLine(S.FindMedianSortedArrays(new[] { 1, 3 }, new[] { 2 }));
+		Console.WriteLine(S.FindMedianSortedArrays(new[] { 1, 2 }, new[] { 3,4 }));
+		Console.WriteLine(S.FindMedianSortedArrays(new[] { 1, 3 }, new[] { 2,7 }));
 	}
 }
 
@@ -107,18 +103,53 @@ public class Solution
 		return l3;
 	}
 
-	public int LengthOfLongestSubstring(string s)
+	public int LengthOfLongestSubstring(string str)
 	{
-		string sb = String.Empty;
-		int    m  = 0;
-		for (int i = 0; i < s.Length; i++) {
+		var seen = new HashSet<char>();
 
-			int x = i;
-			while (!sb.Contains(s[x])) {
-				x++;
+		int l = 0;
+		int m = 0;
+
+		for (int i = 0; i < str.Length; i++) {
+			char n = str[i];
+
+			if (!seen.Add(n)) {
+				while (str[l] != n) {
+					seen.Remove(str[l++]);
+				}
+
+				l++;
 			}
+
+			m = Math.Max(i + 1 - l, m);
 		}
+
 		return m;
 	}
-}
+
+	double getmedian(int[] x)
+	{
+		var n = x.Length;
+
+		double med;
+
+		if (n % 2 == 0) {
+			med = ((double) x[n / 2] + (double) x[(n / 2) + 1]) / 2d;
+		}
+		else {
+			if (n == 3) {
+				med = x[1];
+			}
+			else med = x[(n + 1) / 2];
+		}
+
+		return med;
+	}
+
+	public double FindMedianSortedArrays(int[] nums1, int[] nums2)
+	{
+		var u= nums1.Union(nums2).ToArray();
+		Array.Sort(u);
+		return getmedian(u);
+	}	
 }
